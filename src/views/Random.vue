@@ -20,7 +20,9 @@ import GifGrid from '../components/GifGrid.vue'
 export default class Random extends Vue {
     constructor() {
         super();
-        store.dispatch('fetchRandom');
+        store.dispatch('fetchRandomCache').catch(e => {
+            console.warn(e)
+        })
     }
 };
 </script>

@@ -12,29 +12,41 @@ export default new Vuex.Store({
         searchResults: [
 
         ],
+        randomCache: [
+
+        ],
         random: [
 
         ],
         loadingPopular: false,
         loadingSearch: false,
-        loadingRandom: true,
+        loadingRandom: false,
+        loadingRandomCache: false,
         query: '',
         suggested: '',
+        batchSize: 10,
     },
     mutations: {
         setMostPopular(state, data) {
             state.mostPopular = data;
         },
-        setRandom(state, data) {
-            state.random = data;
-            state.loadingRandom = false;
-            console.log("random results", state.random.length)
+        updateRandomCache(state, newData) {
+            state.randomCache = [].concat(state.randomCache, newData);
+        },
+        clearRandomCache(state) {
+            state.randomCache = [];
+        },
+        nextRandomBatch(state, newBatch) {
+            state.random = [].concat(state.random, newBatch);
         },
         setSearchResults(state, data) {
             state.searchResults = data;
         },
         setLoadingRandom(state, loading) {
             state.loadingRandom = loading;
+        },
+        setLoadingRandomCache(state, loading) {
+            state.loadingRandomCache = loading;
         },
         setSuggested(state, data) {
             state.suggested = data
@@ -80,76 +92,68 @@ export default new Vuex.Store({
                 this.commit('setSearchResults', data);
             })
         },
-        async fetchRandom(store) {
-            this.commit('setLoadingRandom', true);
+        fetchRandomCache(store) {
+            this.commit('setLoadingRandomCache', true);
             // fetch random GIFs from GIFY
-
-            // api.giphy.com/v1/gifs/trending
-            const requestURL = `${process.env.VUE_APP_GIPHYAPI_RANDOM}?api_key=${process.env.VUE_APP_GIPHYAPI_KEY}&rating=G`
-
-            const data = new Array<any>();
-
             // send $count random API endpoint requests
             const requests = new Array<Promise<void>>();
 
-            const count = 100;
+            const batches = 10;
 
-            // if we start getting all requests
-            for (let i = 0; i < count; i++) { // TODO: switch to Axios.post
+            // We start getting all requests
+            for (let i = 0; i < batches; i++) { // TODO: switch to Axios.post
                 requests.push(
-                    Axios.get(requestURL).then(res => {
-                        if (res.status === 200) {
-                            data.push(res.data.data);
-                        }
-                        // we want to update the store periodically to allow lazy loading in batches (10 results)
-                        if (data.length % 10 === 0) {
-                            // set the data in the store
-                            this.commit('setRandom', data)
-                        }
-                    })
+                    store.dispatch('fetchRandomBatch')
                 )
             }
 
             // we will wait for all requests to complete
-            await Promise.all(requests)
-
-            // although we have been committing periodically, we should ensure all requests have been commited to the store
-            if (this.state.random.length !== data.length) {
-                // set the data in the store
-                this.commit('setRandom', data)
-            }
+            Promise.all(requests).then(() => {
+                this.commit('setLoadingRandomCache', false);
+            })
         },
-        async fetchNextRandomBatch(store) {
-            this.commit('setLoadingRandom', true);
+        fetchRandomBatch(store) {
             // fetch random GIFs from GIFY
 
             // api.giphy.com/v1/gifs/trending
             const requestURL = `${process.env.VUE_APP_GIPHYAPI_RANDOM}?api_key=${process.env.VUE_APP_GIPHYAPI_KEY}&rating=G`
 
             //const data = new Array<any>();
-            const data: Array<any> = JSON.parse(JSON.stringify(store.state.random));
+            const newData: Array<any> = []
 
             // send $count random API endpoint requests
             const requests = new Array<Promise<void>>();
 
-            const count = 10;
-
             // if we start getting all requests
-            for (let i = 0; i < count; i++) { // TODO: switch to Axios.post
+            for (let i = 0; i < store.state.batchSize; i++) { // TODO: switch to Axios.post
                 requests.push(
                     Axios.get(requestURL).then(res => {
                         if (res.status === 200) {
-                            data.push(res.data.data);
+                            newData.push(res.data.data);
                         }
                     })
                 )
             }
 
             // we will wait for all requests to complete
-            await Promise.all(requests)
+            Promise.all(requests).then(() => {
+                // set the data in the store
+                this.commit('updateRandomCache', newData);
+            });
+        },
+        async fetchNextRandomBatch(store) {
+            this.commit('setLoadingRandom', true);
 
-            // set the data in the store
-            this.commit('setRandom', data)
+            if (!store.state.loadingRandomCache) {
+                await this.dispatch('fetchRandomBatch')
+            }
+            const startAt = store.state.random.length;
+            const endAt =  startAt + store.state.batchSize;
+            const newBatch = store.state.randomCache.slice(startAt, endAt);
+
+            this.commit('nextRandomBatch', newBatch);
+
+            this.commit('setLoadingRandom', false);
         },
         fetchSuggested(store) {
             // fetch data from GIPHY trending endpoint

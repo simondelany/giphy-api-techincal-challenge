@@ -8,11 +8,11 @@
     </header>
     <div class="image-grid" :id="`grid-${contentType}`">
         <gif-card v-for="(img, index) of images" v-bind:key="index" :data="img" />
-        <div class="end-marker">
+        <div class="end-marker" 
+            @click="nextBatch">
             <div v-show="loading || busy" class="loading">Loading...</div>
             <div v-show="!loading && !busy"
                 class="more"
-                @click="nextBatch"
                 id="more">
                 <span>{{ images.length }}</span>Results
             </div>
@@ -35,17 +35,10 @@ import store from "../store";
   }
 })
 export default class GifGrid extends Vue {
-  private batchSize: number;
-  private batchEndIndex: number;
-  private maxVisible: number;
   private busy: boolean;
 
   constructor() {
     super();
-
-    this.batchSize = 10;
-    this.maxVisible = 50;
-    this.batchEndIndex = this.batchSize - 1;
     this.busy = false;
   }
 
@@ -63,10 +56,7 @@ export default class GifGrid extends Vue {
         images = store.state.searchResults;
         break;
       case "random":
-        images = store.getters.getSliceRandom(
-          this.getStartIndex(),
-          this.batchEndIndex
-        );
+        images = store.state.random;
         break;
     }
     return images;
@@ -76,13 +66,6 @@ export default class GifGrid extends Vue {
     return store.getters.checkLoading(this.contentType);
   }
 
-  private getStartIndex() {
-    let startIndex = this.batchEndIndex + 1 - this.maxVisible;
-    if (startIndex < 0) {
-      startIndex = 0;
-    }
-    return 0; //startIndex
-  }
 
   private nextBatch() {
     this.busy = true;
@@ -92,9 +75,6 @@ export default class GifGrid extends Vue {
     // as we consume the current next batch of results
     // then we should start fetching a subsequent batch now
     store.dispatch("fetchNextRandomBatch");
-
-    // increment the batchEndIndex to shift our slice through the fetched data
-    this.batchEndIndex += this.batchSize;
   }
 }
 </script>

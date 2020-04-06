@@ -3,7 +3,7 @@
     <img alt="Giphy Icon" src="../assets/giphy-branding/GIPHY Logo 75px.png" />
     <gif-grid title="Search"
         msg="Search for GIFs on GIPHY!"
-        :images="[]"/>
+        contentType="searchResults"/>
   </div>
 </template>
 

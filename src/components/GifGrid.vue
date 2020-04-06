@@ -2,7 +2,9 @@
   <div class="gif-grid">
     <header>
       <h1>{{ title }}</h1>
-      <p>{{ msg }}</p>
+      <search-bar v-if="contentType === 'searchResults'"
+        />
+      <p v-else>{{ msg }}</p>
     </header>
     <div class="image-grid" :id="`grid-${contentType}`">
         <gif-card v-for="(img, index) of images" v-bind:key="index" :data="img" />
@@ -23,11 +25,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 import GifCard from "@/components/GifCard.vue";
+import SearchBar from "@/components/SearchBar.vue";
 import store from "../store";
 
 @Component({
   components: {
-    GifCard
+    GifCard,
+    SearchBar
   }
 })
 export default class GifGrid extends Vue {
@@ -56,6 +60,7 @@ export default class GifGrid extends Vue {
         images = store.state.mostPopular;
         break;
       case "searchResults":
+        images = store.state.searchResults;
         break;
       case "random":
         images = store.getters.getSliceRandom(

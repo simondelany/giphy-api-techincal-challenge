@@ -18,6 +18,8 @@ export default new Vuex.Store({
         loadingPopular: false,
         loadingSearch: false,
         loadingRandom: true,
+        query: '',
+        suggested: '',
     },
     mutations: {
         setMostPopular(state, data) {
@@ -28,12 +30,21 @@ export default new Vuex.Store({
             state.loadingRandom = false;
             console.log("random results", state.random.length)
         },
+        setSearchResults(state, data) {
+            state.searchResults = data;
+        },
         setLoadingRandom(state, loading) {
             state.loadingRandom = loading;
+        },
+        setSuggested(state, data) {
+            state.suggested = data
+        },
+        setQuery(state, value) {
+            state.query = value;
         }
     },
     actions: {
-        fetchMostPopular(state) {
+        fetchMostPopular(store) {
             // fetch data from GIPHY trending endpoint
 
             // api.giphy.com/v1/gifs/trending
@@ -51,8 +62,23 @@ export default new Vuex.Store({
                 this.commit('setMostPopular', data);
             })
         },
-        fetchSearch(state) {
+        fetchSearch(store) {
             // fetch GIFs from GIPHY that math a given search term
+
+            // api.giphy.com/v1/gifs/trending
+            const requestURL = `${process.env.VUE_APP_GIPHYAPI_SEARCH}?q=${store.state.query}&api_key=${process.env.VUE_APP_GIPHYAPI_KEY}`
+
+            //TODO: switch to Axios.post
+            Axios.get(requestURL).then(res => {
+                let data: any = { "data": [] };
+
+                if (res.status === 200) {
+                    data = res.data.data
+                }
+
+                // set the data in the store
+                this.commit('setSearchResults', data);
+            })
         },
         async fetchRandom(store) {
             this.commit('setLoadingRandom', true);
@@ -124,6 +150,24 @@ export default new Vuex.Store({
 
             // set the data in the store
             this.commit('setRandom', data)
+        },
+        fetchSuggested(store) {
+            // fetch data from GIPHY trending endpoint
+
+            // api.giphy.com/v1/gifs/trending
+            const requestURL = `${process.env.VUE_APP_GIPHYAPI_AUTOCOMPLETE}?q=${store.state.query}&api_key=${process.env.VUE_APP_GIPHYAPI_KEY}`
+
+            //TODO: switch to Axios.post
+            Axios.get(requestURL).then(res => {
+                let data: any = { "data": [] };
+
+                if (res.status === 200) {
+                    data = res.data.data
+                }
+
+                // set the data in the store
+                this.commit('setSuggested', data);
+            })
         }
     },
     getters: {
@@ -144,6 +188,12 @@ export default new Vuex.Store({
                     break;
             }
             return loading
+        },
+        getSuggested: (state) =>  () => {
+            return state.suggested;
+        },
+        getQuery: (state) => () => {
+            return state.query;
         }
     },
     modules: {}

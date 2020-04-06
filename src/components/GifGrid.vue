@@ -14,7 +14,7 @@
                 class="more"
                 @click="nextBatch"
                 id="more">
-                <span>{{ images.length }}</span>Load More
+                <span>{{ images.length }}</span>Results
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@ header {
 }
 
 .image-grid {
-    height: 75%;
+    height: 70%;
     overflow-y: scroll;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -145,12 +145,26 @@ header {
 }
 
 .gif-grid {
-    height: 85%;
+    height: 100%;
     background-color: #1f1a1a;
     color: #d8d3b8;
 }
 
 #more span {
     margin-right: 0.4em;
+}
+
+.end-marker {
+    color: #444340;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.44);
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    width: auto;
+    background-color: black;
+
+    * {
+        margin: auto;
+    }
 }
 </style>

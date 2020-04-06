@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/most-popular">Most Popular</router-link> |
-      <router-link to="/search">Search</router-link> |
-      <router-link to="/random">Random</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <header>
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/most-popular">Most Popular</router-link> |
+        <router-link to="/search">Search</router-link> |
+        <router-link to="/random">Random</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+    </header>
     <router-view id="view"/>
+    <footer>
+      <p>Powered by</p><img alt="Giphy Icon" src="./assets/giphy-branding/GIPHY Logo 75px.png" />
+    </footer>
   </div>
 </template>
 
@@ -53,10 +58,15 @@ body {
 }
 
 #view {
-  height: 100%;
+  height: 90%;
   border-style: solid;
   background-color: #120b19;
   display: block;
+}
+
+footer {
+  max-height: 10%;
+  display: inline-flex;
 }
 
 

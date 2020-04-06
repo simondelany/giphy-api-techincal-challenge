@@ -1,6 +1,6 @@
 <template>
   <div class="random">
-    <img alt="Giphy Icon" src="../assets/giphy-branding/GIPHY Logo 75px.png" />
+    
     <gif-grid title="Random"
         msg="Here's a random collection of GIFs from GIPHY!"
         contentType="random"/>

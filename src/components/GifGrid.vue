@@ -53,6 +53,13 @@ export default class GifGrid extends Vue {
     switch (this.contentType) {
       case "mostPopular":
         images = store.state.mostPopular;
+        /*
+        // uncomment to enable auto refetch of cleaned data
+
+        if (!images.length) {
+          store.dispatch('fetchMostPopular');
+        }
+        */
         break;
       case "searchResults":
         images = store.state.searchResults;

@@ -30,6 +30,13 @@ export default new Vuex.Store({
         setMostPopular(state, data) {
             state.mostPopular = data;
         },
+        cleanMostPopular(state) {
+            const now = new Date();
+            state.mostPopular = state.mostPopular.filter((item: any) => {
+                return now <= item.expiredFrom;
+            });
+            console.log("cleaned data: mostPopular")
+        },
         updateRandomCache(state, newData) {
             state.randomCache = [].concat(state.randomCache, newData);
         },
@@ -41,6 +48,13 @@ export default new Vuex.Store({
         },
         setSearchResults(state, data) {
             state.searchResults = data;
+        },
+        cleanSearchResults(state) {
+            const now = new Date();
+            state.searchResults = state.searchResults.filter((item: any) => {
+                return now <= item.expiredFrom;
+            });
+            console.log("cleaned data: searchResults")
         },
         setLoadingRandom(state, loading) {
             state.loadingRandom = loading;
@@ -60,36 +74,62 @@ export default new Vuex.Store({
             // fetch data from GIPHY trending endpoint
 
             // api.giphy.com/v1/gifs/trending
-            const requestURL = `${process.env.VUE_APP_GIPHYAPI_MOST_POPULAR}?api_key=${process.env.VUE_APP_GIPHYAPI_KEY}&limit=10&rating=G`
+            const requestURL = `${process.env.VUE_APP_GIPHYAPI_MOST_POPULAR}?api_key=${process.env.VUE_APP_GIPHYAPI_KEY}&limit=25&rating=G`
+
+            // data expires in 1 hour
+            const ttl = 60 * 60 * 1000;
 
             //TODO: switch to Axios.post
             Axios.get(requestURL).then(res => {
+                const expiredFrom = new Date()
+                expiredFrom.setTime(expiredFrom.getTime() + ttl);
                 let data: any = { "data": [] };
 
                 if (res.status === 200) {
-                    data = res.data.data
+                    data = res.data.data.map(item => {
+                        // we want to set an expiry on each item
+                        item.expiredFrom = expiredFrom;
+                        return item;
+                    });
                 }
 
                 // set the data in the store
                 this.commit('setMostPopular', data);
+
+                // set delayed check on data freshness
+                window.setTimeout(() => {
+                    this.commit('cleanMostPopular')
+                }, ttl)
             })
         },
         fetchSearch(store) {
             // fetch GIFs from GIPHY that math a given search term
-
+            // data expires in 1 minute
+            const ttl = 60 * 1000;
             // api.giphy.com/v1/gifs/trending
             const requestURL = `${process.env.VUE_APP_GIPHYAPI_SEARCH}?q=${store.state.query}&api_key=${process.env.VUE_APP_GIPHYAPI_KEY}`
 
             //TODO: switch to Axios.post
             Axios.get(requestURL).then(res => {
+                const expiredFrom = new Date()
+                expiredFrom.setTime(expiredFrom.getTime() + ttl);
                 let data: any = { "data": [] };
 
                 if (res.status === 200) {
-                    data = res.data.data
+                    data = res.data.data.map(item => {
+                        // we want to set an expiry on each item
+                        item.expiredFrom = expiredFrom;
+                        return item;
+                    });
                 }
 
                 // set the data in the store
                 this.commit('setSearchResults', data);
+
+                // set delayed check on data freshness
+                window.setTimeout(() => {
+                    this.commit('cleanSearchResults');
+                }, ttl)
             })
         },
         fetchRandomCache(store) {

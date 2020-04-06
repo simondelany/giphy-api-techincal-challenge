@@ -6,7 +6,9 @@
         />
       <p v-else>{{ msg }}</p>
     </header>
-    <div class="image-grid" :id="`grid-${contentType}`">
+    <div class="image-grid" 
+        :id="`grid-${contentType}`"
+        v-on:scroll="scrollHandler">
         <gif-card v-for="(img, index) of images" v-bind:key="index" :data="img" />
         <div class="end-marker" 
             @click="nextBatch">
@@ -76,6 +78,13 @@ export default class GifGrid extends Vue {
     // then we should start fetching a subsequent batch now
     store.dispatch("fetchNextRandomBatch");
   }
+
+  private scrollHandler = (e) => {
+      const container: HTMLElement = e.target;
+      if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+          this.nextBatch();
+      }
+  }
 }
 </script>
 
@@ -136,12 +145,12 @@ header {
 
 .end-marker {
     color: #444340;
-    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.44);
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     padding: 10px 10px 10px 10px;
     display: flex;
     width: auto;
-    background-color: black;
+    background-color: #73737314;
 
     * {
         margin: auto;

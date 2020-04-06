@@ -18,9 +18,9 @@ export default new Vuex.Store({
         random: [
 
         ],
-        loadingPopular: false,
-        loadingSearch: false,
-        loadingRandom: false,
+        loadingPopular: true,
+        loadingSearch: false, // search doesn't start loading until it has a query
+        loadingRandom: true,
         loadingRandomCache: false,
         query: '',
         suggested: '',
@@ -139,6 +139,9 @@ export default new Vuex.Store({
             Promise.all(requests).then(() => {
                 // set the data in the store
                 this.commit('updateRandomCache', newData);
+                if (!store.state.random.length) {
+                    this.dispatch('fetchNextRandomBatch');
+                }
             });
         },
         async fetchNextRandomBatch(store) {
@@ -151,9 +154,9 @@ export default new Vuex.Store({
             const endAt =  startAt + store.state.batchSize;
             const newBatch = store.state.randomCache.slice(startAt, endAt);
 
-            this.commit('nextRandomBatch', newBatch);
+            store.commit('nextRandomBatch', newBatch);
 
-            this.commit('setLoadingRandom', false);
+            store.commit('setLoadingRandom', false);
         },
         fetchSuggested(store) {
             // fetch data from GIPHY trending endpoint

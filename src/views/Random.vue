@@ -1,0 +1,26 @@
+<template>
+  <div class="random">
+    <img alt="Giphy Icon" src="../assets/giphy-branding/GIPHY Logo 75px.png" />
+    <gif-grid title="Random"
+        msg="Here's a random collection of GIFs from GIPHY!"
+        contentType="random"/>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import store from '../store'
+import GifGrid from '../components/GifGrid.vue'
+
+@Component({
+    components: {
+        GifGrid
+    }
+})
+export default class Random extends Vue {
+    constructor() {
+        super();
+        store.dispatch('fetchRandom');
+    }
+};
+</script>

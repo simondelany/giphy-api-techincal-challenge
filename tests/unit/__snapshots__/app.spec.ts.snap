@@ -4,12 +4,12 @@ exports[`App.vue renders 1`] = `
 <div id="app">
   <header>
     <div id="nav">
-      <router-link to="/search">Search</router-link> |
-      <router-link to="/most-popular">Most Popular</router-link> |
-      <router-link to="/random">Random</router-link>
+      <router-link-stub to="/search" tag="a" event="click">Search</router-link-stub> |
+      <router-link-stub to="/most-popular" tag="a" event="click">Most Popular</router-link-stub> |
+      <router-link-stub to="/random" tag="a" event="click">Random</router-link-stub>
     </div>
   </header>
-  <router-view id="view"></router-view>
+  <router-view-stub name="default" id="view"></router-view-stub>
   <footer>
     <p>Powered by</p> <img alt="Giphy Icon" src="./assets/giphy-branding/GIPHY Logo 75px.png">
   </footer>

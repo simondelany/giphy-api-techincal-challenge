@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GIPHY API: Most Popular response image data has not changed 1`] = `
+Array [
+  "type",
+  "id",
+  "url",
+  "slug",
+  "bitly_gif_url",
+  "bitly_url",
+  "embed_url",
+  "username",
+  "source",
+  "title",
+  "rating",
+  "content_url",
+  "source_tld",
+  "source_post_url",
+  "is_sticker",
+  "import_datetime",
+  "trending_datetime",
+  "images",
+  "user",
+  "analytics_response_payload",
+  "analytics",
+]
+`;
+
+exports[`GIPHY API: Most Popular response image data has not changed 2`] = `
+Array [
+  "hd",
+  "downsized_large",
+  "fixed_height_small_still",
+  "original",
+  "fixed_height_downsampled",
+  "downsized_still",
+  "fixed_height_still",
+  "downsized_medium",
+  "downsized",
+  "preview_webp",
+  "original_mp4",
+  "fixed_height_small",
+  "fixed_height",
+  "downsized_small",
+  "preview",
+  "fixed_width_downsampled",
+  "fixed_width_small_still",
+  "fixed_width_small",
+  "original_still",
+  "fixed_width_still",
+  "looping",
+  "fixed_width",
+  "preview_gif",
+  "480w_still",
+]
+`;

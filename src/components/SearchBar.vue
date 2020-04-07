@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <form class="search-bar__form" v-on:submit="triggerSearch">
+    <form class="search-bar__form" onsubmit="return false;" autocomplete="off">
       <div class="block">
         <input
           id="search-bar"
@@ -10,7 +10,7 @@
           autocomplete="off"
           @input="updateQuery"
         />
-        <button type="submit">
+        <button @click="triggerSearch">
           <img src="https://giphy.com/static/img/search-icon.svg" />
         </button>
       </div>
@@ -49,6 +49,7 @@ export default class SearchBar extends Vue {
 
   private triggerSearch() {
     store.dispatch("fetchSearch");
+    return false;
   }
 }
 </script>

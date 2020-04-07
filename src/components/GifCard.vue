@@ -1,8 +1,6 @@
 <template>
   <div class="gif-card">
-    <img :alt="data.title" 
-        :src="data.images.preview_gif.url"
-    />
+    <img :alt="data.title" :src="data.images.preview_gif.url" />
   </div>
 </template>
 
@@ -16,5 +14,5 @@ export default class GifGrid extends Vue {
 </script>
 
 <style scoped lang="scss">
-  @import "@/styles/components/gifcard.scss";
+@import "@/styles/components/gifcard.scss";
 </style>

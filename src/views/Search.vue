@@ -1,9 +1,10 @@
 <template>
   <div class="search">
-    
-    <gif-grid title="Search"
-        msg="Search for GIFs on GIPHY!"
-        contentType="searchResults"/>
+    <gif-grid
+      title="Search"
+      msg="Search for GIFs on GIPHY!"
+      contentType="searchResults"
+    />
   </div>
 </template>
 

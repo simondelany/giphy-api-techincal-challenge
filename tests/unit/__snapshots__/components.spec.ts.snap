@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GifCard.vue renders props.data when passed 1`] = `<div class="gif-card"><img alt="ryan gosling GIF" src="https://media1.giphy.com/media/qg5pk8s2h5kJy/giphy-preview.gif?cid=9e3f09c8914b506df656bf82215c379b7ebde7ad89ac1987&amp;rid=giphy-preview.gif"></div>`;
+
+exports[`GifGrid.vue renders when passed props for: 'Most Popular' 1`] = `
+<div class="gif-grid">
+  <header>
+    <h1>Most Popular</h1>
+    <p>Here are some of the most popular GIFs available on GIPHY right now!</p>
+  </header>
+  <div id="grid-mostPopular" class="image-grid">
+    <div class="end-marker">
+      <div class="loading">Loading...</div>
+      <div id="more" class="more" style="display: none;"><span>0</span>Results
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GifGrid.vue renders when passed props for: 'Random' 1`] = `
+<div class="gif-grid">
+  <header>
+    <h1>Random</h1>
+    <p>Here's a random collection of GIFs from GIPHY!</p>
+  </header>
+  <div id="grid-random" class="image-grid">
+    <div class="end-marker">
+      <div class="loading">Loading...</div>
+      <div id="more" class="more" style="display: none;"><span>0</span>Results
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GifGrid.vue renders when passed props for: 'Search' 1`] = `
+<div class="gif-grid">
+  <header>
+    <h1>Search</h1>
+    <search-bar-stub></search-bar-stub>
+  </header>
+  <div id="grid-searchResults" class="image-grid">
+    <div class="end-marker">
+      <div class="loading" style="display: none;">Loading...</div>
+      <div id="more" class="more"><span>0</span>Results
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SearchBar.vue renders 1`] = `
+<div class="search-bar">
+  <form class="search-bar__form">
+    <div class="block"><input id="search-bar" list="suggestions" type="text" autocomplete="off"> <button type="submit"><img src="https://giphy.com/static/img/search-icon.svg"></button></div> <datalist id="suggestions" style="display: none;"></datalist>
+  </form>
+</div>
+`;

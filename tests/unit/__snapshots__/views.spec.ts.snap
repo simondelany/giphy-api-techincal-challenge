@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MostPopular.vue renders 1`] = `
+<div class="most-popular">
+  <gif-grid-stub title="Most Popular" msg="Here are some of the most popular GIFs available on GIPHY right now!" contenttype="mostPopular"></gif-grid-stub>
+</div>
+`;
+
+exports[`Random.vue renders 1`] = `
+<div class="random">
+  <gif-grid-stub title="Random" msg="Here's a random collection of GIFs from GIPHY!" contenttype="random"></gif-grid-stub>
+</div>
+`;
+
+exports[`Search.vue renders 1`] = `
+<div class="search">
+  <gif-grid-stub title="Search" msg="Search for GIFs on GIPHY!" contenttype="searchResults"></gif-grid-stub>
+</div>
+`;

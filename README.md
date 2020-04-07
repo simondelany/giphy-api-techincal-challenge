@@ -3,6 +3,7 @@
 ## Project setup
 ```
 npm install
+cp .env.dev .env
 ```
 
 ### Compiles and hot-reloads for development

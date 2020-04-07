@@ -1,0 +1,42 @@
+@import "./base/_reset.scss";
+@import "./base/_variables";
+@import "./base/typography";
+
+body {
+    height: 90vh;
+}
+
+#app {
+    text-align: center;
+    color: $color-secondary;
+    height: inherit;
+}
+
+#nav {
+    padding: $section-padding;
+
+    a {
+        font-weight: bold;
+        color: $color-secondary;
+
+        &.router-link-exact-active {
+            color: $color-accent;
+        }
+    }
+}
+
+#view {
+    height: 90%;
+    border-style: solid;
+    background-color: $background-darkest;
+    display: block;
+}
+
+footer {
+    max-height: 10%;
+    display: inline-flex;
+}
+
+img[alt="Giphy Icon"] {
+    margin: 1em;
+}

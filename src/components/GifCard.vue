@@ -16,8 +16,5 @@ export default class GifGrid extends Vue {
 </script>
 
 <style scoped lang="scss">
-  img {
-    margin: auto;
-    width: 100%;
-  }
+  @import "@/styles/components/gifcard.scss";
 </style>

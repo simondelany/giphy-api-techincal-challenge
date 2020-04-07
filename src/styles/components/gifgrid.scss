@@ -1,0 +1,100 @@
+@import "@/styles/base/_variables.scss";
+
+h3 {
+    margin: $section-padding 0 0;
+}
+
+header {
+    height: 20%;
+    padding-top: 0.3em;
+}
+
+.gif-card {
+    background-color: $background-light;
+    box-shadow: $card-shadow;
+    border-radius: $card-radius;
+    padding: $card-padding;
+    display: flex;
+    width: auto;
+}
+
+.image-grid {
+    height: 77%;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: repeat($grid-column-count, 1fr);
+    background-color: $background-dark;
+    padding: $card-padding;
+    width: 95%;
+    margin: auto;
+    grid-gap: $grid-spacer;
+    box-shadow: $cutout-shadow;
+    grid-auto-rows: min-content;
+}
+
+.gif-grid {
+    height: 100%;
+    background-color: $background-darker;
+    color: $color-primary;
+}
+
+#more span {
+    margin-right: $text-spacer;
+}
+
+.end-marker {
+    color: $color-faded;
+    box-shadow: $card-shadow;
+    border-radius: $card-radius;
+    padding: $card-padding;
+    display: flex;
+    width: auto;
+    background-color: $background-overlay;
+
+    * {
+        margin: auto;
+    }
+}
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+ }
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+    .image-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+    .image-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+ }
+ 
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+    .image-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+ }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .image-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+ }
+
+  /* XXL devices (large laptops and desktops, 1800px and up) */
+  @media only screen and (min-width: 1800px) {
+    .image-grid {
+        grid-template-columns: repeat(8, 1fr);
+    }
+ }
+
